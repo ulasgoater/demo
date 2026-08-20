@@ -110,4 +110,48 @@ DTO (Data Transfer Object) : We use this to not expose our entire entities to us
 DAO (Data Access Object): Design pattern, object that we use to access data, in our case it is the repositories that implement JPA.
 
 
+JPA (Jakarta Persistence API) is the specification (the blueprint/rules). It defines annotations like @Entity, @Table, @Id, @Version, and the EntityManager interface, but contains no actual database execution code.
+Hibernate is the actual implementation (the engine under the hood).
+Object-Relational Mapping (ORM): Reads our @Entity classes and converts Java objects into SQL queries (SELECT, INSERT, UPDATE, DELETE).
+Dirty Checking: When you modify an entity inside a @Transactional method (e.g. account.debit(50)), Hibernate tracks that the balance field changed and automatically writes the UPDATE SQL when the transaction commits.
+Caching & Concurrency: Handles optimistic locking checks (@Version) and first-level caching.
 
+Does JPA .save() Only Work With PostgreSQL? How Do We Adapt to Other DBs?
+No, JPA .save() works with virtually any relational database (PostgreSQL, MySQL, Oracle, SQL Server, SQLite, H2, MariaDB, etc.).
+
+Your Java code (Account.java, AccountRepository.java, AccountService.java) does not change by a single line of code.
+
+How Hibernate Adapts Behind the Scenes:
+Hibernate uses something called a Database Dialect.
+
+In PostgreSQL, an identity column uses BIGSERIAL / GENERATED ALWAYS AS IDENTITY.
+In MySQL, it uses AUTO_INCREMENT.
+In Oracle, it uses a SEQUENCE.
+When you call accountRepository.save(account), Hibernate checks its configured Dialect and generates the exact SQL flavor required by that specific database.
+
+How you switch databases:
+You only change two configuration settings in 
+application.properties
+ (and update the JDBC driver in pom.xml):
+
+
+ How Does GlobalExceptionHandler Work?
+Without a Global Exception Handler, if your code throws throw new AccountNotFoundException(...), the exception bubbles all the way up to the web server (Tomcat), resulting in an ugly 500 Internal Server Error with a 100-line stack trace leaked to the user.
+
+Here is how Spring handles exceptions with @RestControllerAdvice:
+[ Client Request: GET /api/v1/accounts/999 ]
+                    |
+                    v
+             [ Controller ]
+                    |
+                    v
+              [ Service ] ----> Throws AccountNotFoundException("Account 999 not found")
+                    |
+                    x (Spring intercepts the exception before it leaves the app)
+                    v
+       [ GlobalExceptionHandler (@RestControllerAdvice) ]
+                    |
+                    |--> Matches @ExceptionHandler(AccountNotFoundException.class)
+                    |--> Constructs ErrorResponse DTO (status: 404, message: "Account 999 not found")
+                    v
+[ Client gets clean JSON: 404 NOT FOUND ]

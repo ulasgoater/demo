@@ -23,7 +23,7 @@ public class IdempotencyRecord {
     @Column(name = "request_hash", nullable = false)
     private String requestHash;
 
-    @Lob
+    @Lob // 255 characters is not enough for JSON responses, so we use a Large Object (LOB) to store the response body.
     @Column(name = "response_body")
     private String responseBody;
 
@@ -48,4 +48,28 @@ public class IdempotencyRecord {
 
     // TODO: Getters, Setters, and helper to complete record:
     // public void markCompleted(String responseBody, Integer statusCode)
+    public String getIdempotencyKey() {
+        return idempotencyKey;
+    }
+    public String getRequestHash() {
+        return requestHash;
+    }
+    public String getResponseBody() {
+        return responseBody;
+        }
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+    public IdempotencyStatus getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void markCompleted(String responseBody, Integer statusCode) {
+        this.responseBody = responseBody;
+        this.statusCode = statusCode;
+        this.status = IdempotencyStatus.COMPLETED;
+    }
 }

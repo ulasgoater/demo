@@ -53,5 +53,30 @@ public class TransactionRecord {
         this.createdAt = LocalDateTime.now();
     }
 
-    // TODO: Getters and Setters
+    public Long getId() {
+        return this.id;
+    }
+    public String getTransactionReference() {
+        return this.transactionReference;
+    }
+    public Long getSourceAccountId() {
+        return this.sourceAccountId;   
+    }
+    public Long getTargetAccountId() {
+        return this.targetAccountId;
+    }
+    public BigDecimal getAmount() {
+        return this.amount;
+    }
+    public String getCurrency() {
+        return this.currency;
+    }
+    public TransactionStatus getStatus() {
+        return this.status;
+    }
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+    
+    // No setters provided to maintain immutability of the transaction record after creation.
 }

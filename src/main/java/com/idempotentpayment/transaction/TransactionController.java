@@ -1,9 +1,18 @@
 package com.idempotentpayment.transaction;
 
+import com.idempotentpayment.idempotency.IdempotencyRecord;
+import com.idempotentpayment.idempotency.IdempotencyService;
+import com.idempotentpayment.idempotency.IdempotencyStatus;
 import com.idempotentpayment.transaction.dto.PaymentRequest;
 import com.idempotentpayment.transaction.dto.PaymentResponse;
+
+import tools.jackson.databind.ObjectMapper;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  * Transaction Controller.
@@ -26,11 +35,13 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionController {
 
     // TODO: Inject TransactionService and IdempotencyService
-
+    private final TransactionService transactionService;
+    private final IdempotencyService idempotencyService;
     // TODO: Implement:
     // @PostMapping
     // public ResponseEntity<PaymentResponse> processPayment(
     //     @RequestHeader("Idempotency-Key") String idempotencyKey,
     //     @RequestBody PaymentRequest request
     // )
+    
 }
