@@ -23,6 +23,6 @@ public interface TransactionRepository extends JpaRepository<TransactionRecord, 
 
     List<TransactionRecord> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
-    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM TransactionRecord t WHERE t.status = 'SUCCESS' AND t.createdAt BETWEEN :start AND :end")
+    @Query("SELECT COALESCE(SUM(t.amount), 0) FROM TransactionRecord t WHERE t.status = 'SUCCESS' AND t.createdAt BETWEEN :start AND :end" )
     BigDecimal sumSuccessfulTransactionsBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
