@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.idempotentpayment</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>payment-ledger</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description/>
+	<name>payment-ledger</name>
+	<description>Production-Style Idempotent Payment Ledger &amp; Balance Reconciliation Engine</description>
 	<url/>
 	<licenses>
 		<license/>
