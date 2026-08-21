@@ -98,7 +98,15 @@ public class TransactionService {
         );
         TransactionRecord savedRecord = transactionRepository.save(record);
 
-        // 7. Return PaymentResponse DTO
+        // 7. Write Outbox Record (in the exact same atomic DB transaction!)
+        outboxService.recordEvent(
+                "TRANSACTION",
+                savedRecord.getTransactionReference(),
+                "PAYMENT_COMPLETED",
+                savedRecord
+        );
+
+        // 8. Return PaymentResponse DTO
         return new PaymentResponse(
                 savedRecord.getId(),
                 savedRecord.getTransactionReference(),
