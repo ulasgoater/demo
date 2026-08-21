@@ -62,5 +62,44 @@ public class ReconciliationError {
         this.createdAt = LocalDateTime.now();
     }
 
-    // TODO: Getters, Setters, and helper to mark resolved
+    public void markResolved() {
+        this.resolved = true;
+    }
+
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDate getReconciliationDate() {
+        return reconciliationDate;
+    }
+
+    public String getTransactionReference() {
+        return transactionReference;
+    }
+
+    public ReconciliationErrorType getErrorType() {
+        return errorType;
+    }
+
+    public BigDecimal getInternalAmount() {
+        return internalAmount;
+    }
+
+    public BigDecimal getPspAmount() {
+        return pspAmount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

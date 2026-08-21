@@ -162,3 +162,9 @@ Atomicity : Either every single operation in the transaction succeeds, or the en
 Consistency : Rules are never broken. The database always moves from one valid state to another, strictly enforcing all database rules, foreign keys, unique constraints, and @Version numbers.
 Isolation : No stepping on each other's toes. Multiple transactions running at the exact same millisecond cannot see each other’s intermediate/unfinished state.
 Durability : Survives power outages. Once a transaction commits (COMMIT), the data is written to disk/WAL log permanently. Even if lightning strikes the server 1ms later, the money transfer is saved.
+
+AAA Pattern (For integration testing):
+
+1. ARRANGE (Given)  ──> Set up test data (e.g. create Account 1 with $100, Account 2 with $50)
+2. ACT     (When)   ──> Perform the operation (e.g. transfer $30 from Account 1 to Account 2)
+3. ASSERT  (Then)   ──> Verify the result (e.g. check Account 1 has $70, Account 2 has $80, ledger record created)
