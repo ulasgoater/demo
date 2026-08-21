@@ -155,3 +155,10 @@ Here is how Spring handles exceptions with @RestControllerAdvice:
                     |--> Constructs ErrorResponse DTO (status: 404, message: "Account 999 not found")
                     v
 [ Client gets clean JSON: 404 NOT FOUND ]
+
+
+ACID = 
+Atomicity : Either every single operation in the transaction succeeds, or the entire transaction is rolled back.
+Consistency : Rules are never broken. The database always moves from one valid state to another, strictly enforcing all database rules, foreign keys, unique constraints, and @Version numbers.
+Isolation : No stepping on each other's toes. Multiple transactions running at the exact same millisecond cannot see each other’s intermediate/unfinished state.
+Durability : Survives power outages. Once a transaction commits (COMMIT), the data is written to disk/WAL log permanently. Even if lightning strikes the server 1ms later, the money transfer is saved.

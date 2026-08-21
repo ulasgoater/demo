@@ -58,7 +58,53 @@ public class OutboxRecord {
         this.createdAt = LocalDateTime.now();
     }
 
-    // TODO: Getters, Setters, and helper methods:
-    // public void markSent()
-    // public void markFailed()
+    public void markSent() {
+        this.status = OutboxStatus.SENT;
+        this.processedAt = LocalDateTime.now();
+    }
+
+    public void markFailed() {
+        this.retryCount++;
+        if (this.retryCount >= 3) {
+            this.status = OutboxStatus.FAILED;
+        }
+        this.processedAt = LocalDateTime.now();
+    }
+
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public String getAggregateType() {
+        return aggregateType;
+    }
+
+    public String getAggregateId() {
+        return aggregateId;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public OutboxStatus getStatus() {
+        return status;
+    }
+
+    public Integer getRetryCount() {
+        return retryCount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getProcessedAt() {
+        return processedAt;
+    }
 }
